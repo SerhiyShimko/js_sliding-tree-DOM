@@ -3,29 +3,33 @@
 const li = Array.from(document.querySelectorAll('li'));
 
 for (const list of li) {
-  const span = document.createElement('span');
+  const child = list.childNodes;
 
-  if (list.firstChild.nodeType === 3) {
-    span.textContent = list.firstChild.textContent.trim();
-    list.removeChild(list.firstChild);
-  }
+  for (const ch of child) {
+    if (ch.nodeType === 3) {
+      const span = document.createElement('span');
 
-  list.prepend(span);
+      span.textContent = ch.textContent.trim();
+      list.removeChild(ch);
 
-  span.addEventListener('click', (eve) => {
-    const spanTarget = eve.target;
+      list.prepend(span);
 
-    if (spanTarget instanceof HTMLElement) {
-      const next = list.querySelector('ul');
+      span.addEventListener('click', (eve) => {
+        const spanTarget = eve.target;
 
-      if (next instanceof HTMLElement) {
-        if (next.hasAttribute('hidden')) {
-          next.removeAttribute('hidden');
+        if (spanTarget instanceof HTMLElement) {
+          const next = list.querySelector('ul');
 
-          return;
+          if (next instanceof HTMLElement) {
+            if (next.hasAttribute('hidden')) {
+              next.removeAttribute('hidden');
+
+              return;
+            }
+            next.setAttribute('hidden', '');
+          }
         }
-        next.setAttribute('hidden', '');
-      }
+      });
     }
-  });
+  }
 }
