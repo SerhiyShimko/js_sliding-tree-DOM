@@ -5,8 +5,10 @@ const li = Array.from(document.querySelectorAll('li'));
 for (const list of li) {
   const span = document.createElement('span');
 
-  span.textContent = list.firstChild.textContent.trim();
-  list.removeChild(list.firstChild);
+  if (list.firstChild.nodeType === 3) {
+    span.textContent = list.firstChild.textContent.trim();
+    list.removeChild(list.firstChild);
+  }
 
   list.prepend(span);
 
